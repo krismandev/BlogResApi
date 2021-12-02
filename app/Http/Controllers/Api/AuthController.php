@@ -38,7 +38,6 @@ class AuthController extends Controller
                 'success' => true,
                 'message' => 'logout success'
             ]);
-
         } catch (Exception $e) {
             return response()->json([
                 'success' => false,
@@ -80,7 +79,12 @@ class AuthController extends Controller
         if ($request->photo != '') {
             $photo = time().'.jpg';
             //decode photo string and save to storage/profiles
-            file_put_contents('storage/profiles/'.$photo,base64_decode($request->photo));
+            $filepath = $request->file('foto')->storeAs(
+                'public/profiles',
+                $photo,
+                'local'
+            );
+            // file_put_contents('storage/profiles/'.$photo,base64_decode($request->photo));
             $user->photo = $photo;
         }
 
