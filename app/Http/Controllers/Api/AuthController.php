@@ -77,7 +77,7 @@ class AuthController extends Controller
             $user->name = $request->name;
             $user->lastname = $request->lastname;
             $photo = '';
-            return response()->json($request->photo);
+            dd($request->photo);
             if ($request->photo != '') {
                 $photo = time().'.jpg';
                 //decode photo string and save to storage/profiles
