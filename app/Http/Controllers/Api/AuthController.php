@@ -72,26 +72,33 @@ class AuthController extends Controller
 
     public function saveUserInfo(Request $request)
     {
-        $user = User::find(Auth::user()->id);
-        $user->name = $request->name;
-        $user->lastname = $request->lastname;
-        $photo = '';
-        if ($request->photo != '') {
-            $photo = time().'.jpg';
-            //decode photo string and save to storage/profiles
-            $filepath = $request->file('foto')->storeAs(
-                'public/profiles',
-                $photo,
-                'local'
-            );
-            // file_put_contents('storage/profiles/'.$photo,base64_decode($request->photo));
-            $user->photo = $photo;
-        }
+        try {
+            $user = User::find(Auth::user()->id);
+            $user->name = $request->name;
+            $user->lastname = $request->lastname;
+            $photo = '';
+            if ($request->photo != '') {
+                $photo = time().'.jpg';
+                //decode photo string and save to storage/profiles
+                $filepath = $request->file('foto')->storeAs(
+                    'public/profiles',
+                    $photo,
+                    'local'
+                );
+                // file_put_contents('storage/profiles/'.$photo,base64_decode($request->photo));
+                $user->photo = $photo;
+            }
 
-        $user->update();
-        return response()->json([
-            'success'=>true,
-            'photo'=>$photo
-        ]);
+            $user->update();
+            return response()->json([
+                'success'=>true,
+                'photo'=>$photo
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success'=>$e->getMessage(),
+                'photo'=>"salah"
+            ]);
+        }
     }
 }
