@@ -80,7 +80,7 @@ class AuthController extends Controller
             if ($request->photo != '') {
                 $photo = time().'.jpg';
                 //decode photo string and save to storage/profiles
-                $filepath = $request->file('foto')->storeAs(
+                $filepath = $request->file('photo')->storeAs(
                     'public/profiles',
                     $photo,
                     'local'
