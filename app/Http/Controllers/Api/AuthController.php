@@ -116,7 +116,7 @@ class AuthController extends Controller
                 'message'=>"ok"
             ]);
         } catch (\Exception $e) {
-            $message = $e->getMessage() . $e->getLine();
+            $message = $e->getMessage();
             return response()->json([
                 'success'=>false,
                 'photo'=>"salah",
