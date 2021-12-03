@@ -112,13 +112,15 @@ class AuthController extends Controller
             $user->update();
             return response()->json([
                 'success'=>true,
-                'photo'=>$photo
+                'photo'=>$photo,
+                'message'=>"ok"
             ]);
         } catch (\Exception $e) {
             $message = $e->getMessage() . $e->getLine();
             return response()->json([
-                'success'=>$message,
-                'photo'=>"salah"
+                'success'=>false,
+                'photo'=>"salah",
+                "message"=>$message
             ]);
         }
     }
