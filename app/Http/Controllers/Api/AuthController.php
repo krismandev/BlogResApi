@@ -112,7 +112,7 @@ class AuthController extends Controller
                 // decode the base64 file
                 $file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '',$request->photo
                 ));
-                Storage::put("profiles/".$name, $file);
+                Storage::put("public/profiles/".$name, $file);
 
                 // file_put_contents('storage/profiles/'.$photo,base64_decode($request->photo));
                 $user->photo = "profiles/".$name;
@@ -120,14 +120,14 @@ class AuthController extends Controller
                 $user->update();
                 return response()->json([
                     'success'=>true,
-                    'photo'=>"namafoto",
+                    'photo'=>"profiles/".$name,
                 ]);
             }
 
             $user->update();
             return response()->json([
-                'success'=>true,
-                'photo'=>"namafoto",
+                'success'=>false,
+                'photo'=>"",
             ]);
     }
 }
