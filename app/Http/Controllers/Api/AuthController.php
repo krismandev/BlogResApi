@@ -124,7 +124,7 @@ class AuthController extends Controller
             $user->update();
             return response()->json([
                 'success'=>false,
-                'photo'=>"",
+                'photo'=>"tidak ada foto",
             ]);
     }
 }
