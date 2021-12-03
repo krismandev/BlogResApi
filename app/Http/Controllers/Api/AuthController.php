@@ -8,6 +8,7 @@ use App\User;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -79,13 +80,30 @@ class AuthController extends Controller
             $photo = '';
             var_dump($request->photo);
             if ($request->photo != '') {
-                $photo = time().'.jpg';
-                //decode photo string and save to storage/profiles
-                $filepath = $request->file('photo')->storeAs(
-                    'public/profiles',
-                    $photo,
-                    'local'
-                );
+                // $photo = time().'.jpg';
+                // //decode photo string and save to storage/profiles
+                // $filepath = $request->file('photo')->storeAs(
+                //     'public/profiles',
+                //     $photo,
+                //     'local'
+                // );
+
+                $image_64 = $request->photo; //your base64 encoded data
+
+                $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
+
+                $replace = substr($image_64, 0, strpos($image_64, ',')+1);
+
+                // find substring fro replace here eg: data:image/png;base64,
+
+                $image = str_replace($replace, '', $image_64);
+
+                $image = str_replace(' ', '+', $image);
+
+                $imageName = Str::random(10).'.'.$extension;
+
+                Storage::disk('public')->put("profiles/".$imageName, base64_decode($image));
+
                 // file_put_contents('storage/profiles/'.$photo,base64_decode($request->photo));
                 $user->photo = $photo;
             }
