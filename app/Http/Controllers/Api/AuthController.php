@@ -103,7 +103,7 @@ class AuthController extends Controller
 
                 $imageName = Str::random(10).'.'.$extension;
 
-                Storage::disk('public')->put("profiles/".$imageName, base64_decode($image));
+                Storage::disk('local')->put("profiles/".$imageName, base64_decode($image));
 
                 // file_put_contents('storage/profiles/'.$photo,base64_decode($request->photo));
                 $user->photo = $photo;
