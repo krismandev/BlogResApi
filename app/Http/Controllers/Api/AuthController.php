@@ -105,9 +105,6 @@ class AuthController extends Controller
                 // Storage::disk('local')->put("profiles/".$imageName, base64_decode($image));
 
 
-
-
-
                 $name = Str::random(15).'.png';
                 // decode the base64 file
                 $file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '',$request->photo
