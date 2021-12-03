@@ -88,24 +88,36 @@ class AuthController extends Controller
                 //     'local'
                 // );
 
-                $image_64 = $request->photo; //your base64 encoded data
+                // $image_64 = $request->photo; //your base64 encoded data
 
-                $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
 
-                $replace = substr($image_64, 0, strpos($image_64, ',')+1);
 
-                // find substring fro replace here eg: data:image/png;base64,
+                // $extension = explode('/', explode(':', substr($image_64, 0, strpos($image_64, ';')))[1])[1];   // .jpg .png .pdf
 
-                $image = str_replace($replace, '', $image_64);
+                // $replace = substr($image_64, 0, strpos($image_64, ',')+1);
 
-                $image = str_replace(' ', '+', $image);
+                // // find substring fro replace here eg: data:image/png;base64,
 
-                $imageName = Str::random(10).'.'.$extension;
+                // $image = str_replace($replace, '', $image_64);
 
-                Storage::disk('local')->put("profiles/".$imageName, base64_decode($image));
+                // $image = str_replace(' ', '+', $image);
+
+                // $imageName = Str::random(10).'.'.$extension;
+
+                // Storage::disk('local')->put("profiles/".$imageName, base64_decode($image));
+
+
+
+
+
+                $name = Str::random(15).'.png';
+                // decode the base64 file
+                $file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '',$request->input('photo')
+                ));
+                Storage::put("profiles/".$name, $file);Storage::put($name, $file);
 
                 // file_put_contents('storage/profiles/'.$photo,base64_decode($request->photo));
-                $user->photo = $photo;
+                $user->photo = "profiles/".$name;
             }
 
             $user->update();
