@@ -74,7 +74,6 @@ class AuthController extends Controller
 
     public function saveUserInfo(Request $request)
     {
-        try {
             $user = User::find(Auth::user()->id);
             $user->name = $request->name;
             $user->lastname = $request->lastname;
@@ -114,12 +113,5 @@ class AuthController extends Controller
                 'success'=>true,
                 'photo'=>"namafoto",
             ]);
-        } catch (\Exception $e) {
-            $message = $e->getMessage();
-            return response()->json([
-                'success'=>false,
-                'photo'=>"salah"
-            ]);
-        }
     }
 }
