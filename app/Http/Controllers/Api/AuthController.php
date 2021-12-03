@@ -77,9 +77,7 @@ class AuthController extends Controller
             $user = User::find(Auth::user()->id);
             $user->name = $request->name;
             $user->lastname = $request->lastname;
-            $photo = '';
-            var_dump($request->photo);
-            if ($request->photo != '') {
+            if ($request->has("photo")) {
                 // $photo = time().'.jpg';
                 // //decode photo string and save to storage/profiles
                 // $filepath = $request->file('photo')->storeAs(
@@ -112,12 +110,18 @@ class AuthController extends Controller
 
                 $name = Str::random(15).'.png';
                 // decode the base64 file
-                $file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '',$request->input('photo')
+                $file = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '',$request->photo
                 ));
-                Storage::put("profiles/".$name, $file);Storage::put($name, $file);
+                Storage::put("profiles/".$name, $file);
 
                 // file_put_contents('storage/profiles/'.$photo,base64_decode($request->photo));
                 $user->photo = "profiles/".$name;
+
+                $user->update();
+                return response()->json([
+                    'success'=>true,
+                    'photo'=>"namafoto",
+                ]);
             }
 
             $user->update();
